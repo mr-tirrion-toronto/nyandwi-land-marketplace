@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nyandwi-land.pages.dev/sitemap.xml
