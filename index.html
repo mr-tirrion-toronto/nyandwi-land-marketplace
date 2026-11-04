@@ -64,7 +64,7 @@ footer{border-top:1px solid var(--line);padding:22px 14px;text-align:center;colo
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const SB_URL='https://swxcycissxmxuazkpoay.supabase.co',SB_KEY='sb_publishable_u4CIhnsKdHM_XmFDwfaV6A_dSeFwded';
+const SB_URL='https://ngfmnojuyhnqqpoclsbd.supabase.co',SB_KEY='sb_publishable_wxWe5ANWoMY_Gh3zBo21nw_wYY85KMd';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],L_=window.L;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const REG=['Arusha','Dar es Salaam','Dodoma','Geita','Iringa','Kagera','Katavi','Kigoma','Kilimanjaro','Lindi','Manyara','Mara','Mbeya','Morogoro','Mtwara','Mwanza','Njombe','Pemba North','Pemba South','Pwani','Rukwa','Ruvuma','Shinyanga','Simiyu','Singida','Songwe','Tabora','Tanga','Unguja North','Unguja South','Zanzibar Urban/West'];
@@ -90,7 +90,7 @@ function render(){const a=list(),r=$('#res');$('#cn').textContent=cmp.length;$('
 async function load(){const {data}=await sb.from('lm_listings').select('*').order('created_at',{ascending:false}).limit(400);LS=data||[];render();const id=new URLSearchParams(location.search).get('l');if(id&&LS.find(x=>x.id===id)&&!load.d){load.d=1;openListing(id)}}
 async function loadMe(){const {data:{session}}=await sb.auth.getSession();me=null;favs=new Set();
  if(session){const {data}=await sb.from('lm_profiles').select('*').eq('id',session.user.id).maybeSingle();me={...(data||{role:'buyer',full_name:''}),id:session.user.id,email:session.user.email};const {data:f}=await sb.from('lm_favorites').select('listing_id');favs=new Set((f||[]).map(x=>x.listing_id))}
- $('#acct').innerHTML=me?`<span class="small">Hi, ${esc((me.full_name||me.email).split(' ')[0])} (${esc(me.role)})</span> <button class="btn alt sm" data-act="logout">Logout</button>`:'<button class="btn sm" data-act="auth">Login / Register</button>';$('#bAdmin').hidden=!(me&&me.role==='admin');await load()}
+ $('#acct').innerHTML=me?`<span class="small">Hi, ${esc((me.full_name||me.email).split(' ')[0])} (${esc(me.role)})</span> <button class="btn alt sm" data-act="pw">Password</button> <button class="btn alt sm" data-act="logout">Logout</button>`:'<button class="btn sm" data-act="auth">Login / Register</button>';$('#bAdmin').hidden=!(me&&me.role==='admin');await load()}
 function authM(tab){modal(`<h2>${tab==='reg'?'Create account':tab==='fg'?'Reset password':'Login'}</h2><div class="tabs"><button class="chip ${tab!=='reg'&&tab!=='fg'?'on':''}" data-act="auth" data-t="login">Login</button><button class="chip ${tab==='reg'?'on':''}" data-act="auth" data-t="reg">Register</button></div>`+
  (tab==='reg'?`<form class="f" data-form="reg"><label>Full name</label><input name="name" required maxlength="80"><label>Phone (WhatsApp)</label><input name="phone" maxlength="30" placeholder="+255..."><label>I am a</label><select name="role"><option value="buyer">Buyer</option><option value="seller">Seller (owner)</option><option value="agent">Agent / broker</option></select><label>Email</label><input name="email" type="email" required><label>Password (min 8)</label><input name="pw" type="password" minlength="8" required autocomplete="new-password"><p class="small" style="margin:10px 0">By registering you agree to list only land you are authorised to sell and not to mislead buyers.</p><button class="btn" type="submit">Create account</button></form>`:
  tab==='fg'?`<form class="f" data-form="fg"><label>Your email</label><input name="email" type="email" required><br><button class="btn" type="submit">Send reset link</button></form>`:
@@ -103,6 +103,7 @@ const forms={
  async enq(f){const b=f.querySelector('button[type=submit]');b.disabled=true;const {error}=await sb.rpc('lm_start_enquiry',{p_listing:f.id.value,p_message:f.msg.value,p_visit:f.visit.value||null});b.disabled=false;if(error)return toast(/slow_down/.test(error.message)?'Too many enquiries. Try later.':/own_listing/.test(error.message)?'This is your own listing.':'Could not send.');toast('Message sent to the seller');inbox()},
  async rep(f){const {error}=await sb.rpc('lm_report',{p_token:tok(),p_listing:f.id.value,p_reason:f.reason.value,p_details:f.details.value});toast(error?(/slow_down|busy/.test(error.message)?'Too many reports. Try later.':'Could not send report.'):'Thank you. Our team will review this report.');if(!error)closeM()},
  async msg(f){const t=f.body.value.trim();if(!t)return;f.body.value='';const {error}=await sb.from('lm_messages').insert({enquiry_id:f.id.value,sender_id:me.id,body:t});if(error)toast('Not sent.');else thread(f.id.value,true)},
+ async pw(f){const {error}=await sb.auth.updateUser({password:f.pw.value});toast(error?'Could not update.':'Password updated');if(!error)closeM()},
  async sell(f){await saveListing(f)}};
 function need(){if(!me){authM('login');return false}return true}
 async function openListing(id){const l=LS.find(x=>x.id===id);if(!l)return;const ims=(l.images||[]).map(img);
@@ -147,7 +148,7 @@ async function admin(tab){if(!me||me.role!=='admin')return;tab=tab||'pend';const
  modal(h,true)}
 const upd=async(id,p,t)=>{const {error}=await sb.from('lm_listings').update(p).eq('id',id);toast(error?'Failed':'Done');await load();admin(t||'pend')};
 const acts={
- close:closeM,go(d){V=d.v;render();$('#browse').scrollIntoView()},chip(d){F.k=d.k;$$('.chip[data-k]').forEach(c=>c.classList.toggle('on',c.dataset.k===d.k));render()},
+ close:closeM,pw(){modal('<h2>Change password</h2><form class="f" data-form="pw"><label>New password (min 8)</label><input name="pw" type="password" minlength="8" required autocomplete="new-password"><br><button class="btn" type="submit">Update</button></form>')},go(d){V=d.v;render();$('#browse').scrollIntoView()},chip(d){F.k=d.k;$$('.chip[data-k]').forEach(c=>c.classList.toggle('on',c.dataset.k===d.k));render()},
  view(d,e){e.preventDefault();closeM();openListing(d.id)},thumb(d){$('#mi').src=d.s},
  async fav(d,e){e.stopPropagation();if(!need())return;if(favs.has(d.id)){favs.delete(d.id);await sb.from('lm_favorites').delete().eq('listing_id',d.id).eq('user_id',me.id)}else{favs.add(d.id);await sb.from('lm_favorites').insert({user_id:me.id,listing_id:d.id})}render()},
  cmp(d,e){const i=cmp.indexOf(d.id);if(i>=0)cmp.splice(i,1);else if(cmp.length<3)cmp.push(d.id);else{e.target.checked=false;toast('Compare up to 3 listings')}$('#cn').textContent=cmp.length;$('#ct').style.display=cmp.length>1?'block':'none'},
