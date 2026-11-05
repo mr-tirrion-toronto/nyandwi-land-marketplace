@@ -100,8 +100,8 @@
           'dar es salaam':'dar es salaam',
           'dar es salaam region':'dar es salaam',
           'mjini magharibi':'zanzibar urban west',
-          'kaskazini unguja':'pemba north',
-          'kusini unguja':'pemba south',
+          'kaskazini unguja':'unguja north',
+          'kusini unguja':'unguja south',
           'kaskazini pemba':'pemba north',
           'kusini pemba':'pemba south'
         };
