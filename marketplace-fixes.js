@@ -159,7 +159,7 @@
       note.dataset.locationNote='1';
       note.className='small';
       note.style.margin='6px 0 10px';
-      note.textContent='GPS is requested only when you press the button. Address suggestions use BigDataCloud and OpenStreetMap/Photon; they are approximate. Confirm the region, district, ward, village, street and kitongoji before publishing.';
+      note.textContent='Use this only when you are physically at the land. GPS is requested only after you press the button. Suggestions use BigDataCloud and OpenStreetMap/Photon and may be approximate; if you are elsewhere, enter the plot address manually. Confirm every field before publishing.';
       const pin=byId('pmap');
       if(pin)pin.insertAdjacentElement('afterend',note);
     }
