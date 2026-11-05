@@ -1,0 +1,49 @@
+/* Nyandwi Land Marketplace — glass UI polish */
+:root{--glass:rgba(255,255,255,.68);--glass-border:rgba(255,255,255,.78);--glass-shadow:0 18px 48px rgba(10,55,34,.12)}
+body{background:radial-gradient(circle at 8% 8%,rgba(31,150,92,.13),transparent 28%),radial-gradient(circle at 92% 18%,rgba(242,177,52,.13),transparent 25%),linear-gradient(135deg,#f3f8f3,#edf4ef 55%,#f8f7ef)}
+/* Auth and content dialogs */
+#m{background:rgba(5,28,18,.58);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:clamp(10px,3vw,28px)}
+.mb{background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(247,252,248,.72));border:1px solid var(--glass-border);box-shadow:0 28px 90px rgba(0,25,13,.28),inset 0 1px rgba(255,255,255,.9);backdrop-filter:blur(26px) saturate(165%);-webkit-backdrop-filter:blur(26px) saturate(165%);border-radius:24px;overflow:hidden}
+.mb:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#0f5132,#25a568,#f2b134);pointer-events:none}
+.mb h2{letter-spacing:-.5px;font-size:clamp(21px,3vw,27px);font-weight:850;color:#10472e}
+.mb .tabs{padding:6px;background:rgba(20,100,58,.07);border:1px solid rgba(21,115,71,.08);border-radius:15px}
+.mb .tabs .chip{background:transparent;border-color:transparent}
+.mb .tabs .chip.on{background:linear-gradient(135deg,#12623e,#198653);color:#fff;box-shadow:0 7px 18px rgba(15,81,50,.22)}
+.mb .f label{font-weight:700;color:#40594b;margin-top:13px}
+.mb .f input:not([type=radio]):not([type=checkbox]),.mb .f select,.mb .f textarea{background:rgba(255,255,255,.76);border:1px solid rgba(76,125,91,.22);box-shadow:inset 0 1px 2px rgba(20,60,35,.035);transition:border-color .2s,box-shadow .2s,background .2s}
+.mb .f input:focus,.mb .f select:focus,.mb .f textarea:focus{outline:0;border-color:#198653;box-shadow:0 0 0 4px rgba(25,134,83,.12);background:#fff}
+.mb .x{z-index:2;background:rgba(16,81,50,.09);color:#10472e;transition:transform .2s,background .2s}
+.mb .x:hover{transform:rotate(90deg);background:rgba(16,81,50,.16)}
+.mb .btn{box-shadow:0 8px 20px rgba(21,115,71,.2)}
+.mb .btn:not(.alt):not(.red){background:linear-gradient(135deg,#0f5132,#1b8a55)}
+/* Glass panels across buyer, seller, agent and administrator dashboards */
+.mb .dashgrid{gap:12px}
+.mb .stat,.mb .it,.mb .mutedbox,.mb .msgs{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.88);box-shadow:0 10px 28px rgba(14,75,43,.07),inset 0 1px rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:17px}
+.mb .stat{position:relative;overflow:hidden;transition:transform .22s,box-shadow .22s}
+.mb .stat:after{content:"";position:absolute;right:-24px;top:-32px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle,rgba(31,150,92,.14),transparent 70%);pointer-events:none}
+.mb .stat:hover,.mb .it:hover{transform:translateY(-2px);box-shadow:0 15px 34px rgba(14,75,43,.12),inset 0 1px rgba(255,255,255,.9)}
+.mb .stat b{font-size:clamp(21px,3vw,28px);letter-spacing:-.7px}
+.mb .it{padding:15px;margin:10px 0;transition:transform .2s,box-shadow .2s}
+.mb .mutedbox{padding:15px}
+.mb .tabs .chip,.mb .role-option{backdrop-filter:blur(12px)}
+.mb .role-option{background:rgba(255,255,255,.65);border-color:rgba(76,125,91,.18)}
+.mb .role-option:has(input:checked){background:linear-gradient(135deg,rgba(224,245,230,.92),rgba(255,255,255,.78));border-color:#198653}
+.mb .bd.st{box-shadow:0 3px 10px rgba(15,81,50,.08)}
+/* Password quality feedback */
+.pw-quality{display:flex;align-items:center;gap:9px;margin:7px 0 2px}
+.pw-meter{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;flex:1}
+.pw-meter i{height:5px;border-radius:99px;background:rgba(80,110,90,.16);transition:background .2s,transform .2s}
+.pw-meter[data-score="1"] i:nth-child(-n+1),.pw-meter[data-score="2"] i:nth-child(-n+2){background:#d94a45}
+.pw-meter[data-score="3"] i:nth-child(-n+3){background:#e6a52d}
+.pw-meter[data-score="4"] i:nth-child(-n+4),.pw-meter[data-score="5"] i{background:#1c9b61}
+.pw-quality strong{font-size:12px;white-space:nowrap}
+.pw-quality[data-level="weak"] strong{color:#c0392b}
+.pw-quality[data-level="fair"] strong{color:#a66b00}
+.pw-quality[data-level="strong"] strong{color:#137447}
+.pw-advice{font-size:12px;line-height:1.4;color:#65766b;margin:3px 0 8px}
+#regPwHint{margin-top:8px}
+#regMsg:empty{display:none}
+.mb .password-wrap{background:rgba(255,255,255,.82);border-color:rgba(76,125,91,.22)}
+.mb .password-wrap:focus-within{border-color:#198653;box-shadow:0 0 0 4px rgba(25,134,83,.12)}
+@media(max-width:600px){#m{padding:9px}.mb{border-radius:20px;padding:20px 15px}.mb.wide{width:100%}.mb .dashgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.mb .stat{padding:12px}.mb .it{padding:12px}.pw-quality{gap:7px}}
+@media(prefers-reduced-motion:reduce){.mb .stat,.mb .it,.mb .x,.pw-meter i{transition:none!important}}
