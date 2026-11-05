@@ -98,7 +98,7 @@ nav button:hover,nav button:focus-visible{background:rgba(21,115,71,.10);border-
 @media(prefers-reduced-motion:reduce){.card,.btn,nav button,.chip{transition:none!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://nyandwi-land.pages.dev/#website","url":"https://nyandwi-land.pages.dev/","name":"Nyandwi Land Marketplace","alternateName":["Nyandwi Land","Land Marketing Tanzania","Land Market Tanzania"],"description":"Find land, plots, farms and houses for sale in Tanzania."},{"@type":"Organization","@id":"https://nyandwi-land.pages.dev/#organization","name":"Nyandwi Land Marketplace","alternateName":["Nyandwi Land","Land Marketing Tanzania"],"url":"https://nyandwi-land.pages.dev/","description":"Online marketplace for discovering land, plots, farms and houses in Tanzania.","areaServed":{"@type":"Country","name":"Tanzania"}}]}</script>
-</head>
+<link rel="stylesheet" href="./glass-polish.css?v=1">\n</head>
 <body>
 <header class="top"><a class="brand" href="./"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#157347"/><path d="M32 10c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#fff"/><circle cx="32" cy="26" r="6" fill="#f2b134"/></svg>Nyandwi Land</a>
 <nav><button data-act="go" data-v="grid">Browse</button><button data-act="go" data-v="map">Map</button><button data-act="sell">Sell / My listings</button><button data-act="dashboard" id="bDash" hidden>Dashboard</button><button data-act="inbox">Inbox</button><button data-act="admin" id="bAdmin" hidden>Admin</button></nav>
@@ -267,4 +267,4 @@ $('#rg').innerHTML+=REG.map(r=>`<option>${r}</option>`).join('');$('#yr').textCo
 if(!window.supabase||!window.L){$('#res').innerHTML='<div class="empty">Could not load required libraries. Check your connection and reload.</div>'}
 else{sb=supabase.createClient(SB_URL,SB_KEY);sb.auth.onAuthStateChange(()=>setTimeout(loadMe,0));loadMe()}
 </script>
-</body></html>
+<script src="./password-quality.js?v=1" defer></script>\n</body></html>
