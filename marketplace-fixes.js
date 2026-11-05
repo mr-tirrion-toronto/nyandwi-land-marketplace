@@ -9,7 +9,7 @@
   // Explicit logout: clear only this browser's session and immediately return to public browsing.
   if(acts){
     acts.logout=async function(_data,event){
-      const button=event?.currentTarget;
+      const button=event?.target?.closest?.('[data-act="logout"]')||document.querySelector('[data-act="logout"]');
       if(button){button.disabled=true;button.textContent='Logging out…'}
       try{
         const {error}=await sb.auth.signOut({scope:'local'});
@@ -56,7 +56,7 @@
     // Ask for location only after the user presses the button. Coordinates are sent directly
     // from this browser to BigDataCloud's free client-side reverse-geocoding endpoint.
     acts.geo=async function(_data,event){
-      const button=event?.currentTarget;
+      const button=event?.target?.closest?.('[data-act="geo"]')||document.querySelector('#mb [data-act="geo"]');
       const form=document.querySelector('#mb form[data-form="sell"]');
       if(!form||!S?.put||!pmap){toast('Open the land form first, then try again.');return}
       if(!navigator.geolocation){toast('This browser does not support GPS location. You can still enter the address manually.');return}
