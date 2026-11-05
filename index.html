@@ -266,7 +266,7 @@ $('#sf').onsubmit=e=>{e.preventDefault();F.q=$('#q').value.trim();F.rg=$('#rg').
 $('#so').onchange=e=>{F.so=e.target.value;render()};
 $('#rg').innerHTML+=REG.map(r=>`<option>${r}</option>`).join('');$('#yr').textContent=new Date().getFullYear();
 if(!window.supabase||!window.L){$('#res').innerHTML='<div class="empty">Could not load required libraries. Check your connection and reload.</div>'}
-else{sb=supabase.createClient(SB_URL,SB_KEY);const forcePublicEntry=new URLSearchParams(location.search).get('public')==='1';(async()=>{if(forcePublicEntry){const {error}=await sb.auth.signOut({scope:'local'});if(error)console.warn('Public entry sign-out:',error.message);history.replaceState({},'',location.pathname+location.hash)}sb.auth.onAuthStateChange(()=>setTimeout(loadMe,0));await loadMe()})()}
+else{sb=supabase.createClient(SB_URL,SB_KEY);const forcePublicEntry=new URLSearchParams(location.search).get('public')==='1';(async()=>{if(forcePublicEntry){const {data:{session}}=await sb.auth.getSession();if(session){const {data:profile}=await sb.from('lm_profiles').select('role').eq('id',session.user.id).maybeSingle();if(profile?.role==='admin'){const {error}=await sb.auth.signOut({scope:'local'});if(error)console.warn('Public entry sign-out:',error.message)}}history.replaceState({},'',location.pathname+location.hash)}sb.auth.onAuthStateChange(()=>setTimeout(loadMe,0));await loadMe()})()}
 </script>
 <script src="./password-quality.js?v=1" defer></script>
 <script src="./marketplace-fixes.js?v=1"></script>
