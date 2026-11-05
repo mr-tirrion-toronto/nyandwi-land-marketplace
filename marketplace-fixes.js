@@ -82,6 +82,16 @@
         if(String(place.countryCode||'').toUpperCase()!=='TZ'){
           throw new Error('The detected address is not in Tanzania. Your pin is set, but please enter the land address manually.');
         }
+        let photon={};
+        try{
+          const photonParams=new URLSearchParams({lat:String(lat),lon:String(lng),lang:'en'});
+          const photonResponse=await fetch('https://photon.komoot.io/reverse?'+photonParams.toString(),{headers:{Accept:'application/json'},mode:'cors'});
+          if(photonResponse.ok){
+            const photonBody=await photonResponse.json();
+            photon=photonBody.features?.[0]?.properties||{};
+            if(String(photon.countrycode||'').toUpperCase()&&String(photon.countrycode).toUpperCase()!=='TZ')photon={};
+          }
+        }catch(_){/* BigDataCloud still provides the regional fallback. */}
         const admin=Array.isArray(place.localityInfo?.administrative)?place.localityInfo.administrative:[];
         const atLevel=level=>admin.find(item=>Number(item.adminLevel)===level)?.name||'';
         const regionRaw=place.principalSubdivision||atLevel(4);
@@ -102,15 +112,16 @@
         });
         if(regionOption)field(form,'region').value=regionOption.value;
         const values={
-          district:atLevel(5),
+          district:atLevel(5)||photon.county||'',
           division:atLevel(6),
-          ward:atLevel(7),
-          village:atLevel(9)||place.locality||'',
-          hamlet:atLevel(10)
+          ward:atLevel(7)||photon.district||photon.suburb||'',
+          village:atLevel(9)||photon.locality||place.locality||((photon.osm_value==='village')?photon.name:''),
+          street:photon.street||'',
+          hamlet:atLevel(10)||((photon.osm_value==='hamlet')?photon.name:'')
         };
         // A populated place/city can be a useful council hint, but it is not treated as an
         // official council if it duplicates the region or district.
-        const city=place.city||'';
+        const city=photon.city||place.city||'';
         if(city&&normalize(city)!==normalize(values.district)&&normalize(city)!==regionNorm)values.council=city;
         const used=[values.district,values.division,values.ward,values.village,values.hamlet].filter(Boolean).map(normalize);
         const locality=place.locality||'';
@@ -148,7 +159,7 @@
       note.dataset.locationNote='1';
       note.className='small';
       note.style.margin='6px 0 10px';
-      note.textContent='GPS is requested only when you press the button. Address suggestions are approximate; confirm the region, district, ward, village, street and kitongoji before publishing.';
+      note.textContent='GPS is requested only when you press the button. Address suggestions use BigDataCloud and OpenStreetMap/Photon; they are approximate. Confirm the region, district, ward, village, street and kitongoji before publishing.';
       const pin=byId('pmap');
       if(pin)pin.insertAdjacentElement('afterend',note);
     }
