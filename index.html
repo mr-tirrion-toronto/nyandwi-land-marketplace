@@ -215,7 +215,7 @@ async function saveListing(f){const b=f.querySelector('button[type=submit]'),sp=
  catch(e){toast('Could not save: '+String((e&&e.message)||'check the fields').slice(0,90));b.disabled=false;sp.textContent=''}}
 let superAdminId=null;
 async function admin(tab){
- if(!me||!['admin','super_admin'].includes(me.role))return;tab=tab||'overview';
+ if(!me||(!me.is_super_admin&&!['admin','super_admin'].includes(me.role)))return;tab=tab||'overview';
  const {data:c}=await sb.rpc('lm_admin_counts');
  const {data:superId}=await sb.rpc('lm_admin_super_admin_id');superAdminId=superId||null;
  const nav=[['overview','Overview'],['pend','Pending'],['verified','Approved / Verified'],['all','All listings'],['featured','Featured'],['rep','Reports'],['users','All users'],['requests','Role requests ('+Number(c?.role_requests||0)+')'],['agents','Agents'],['sellers','Sellers'],['buyers','Buyers']];
