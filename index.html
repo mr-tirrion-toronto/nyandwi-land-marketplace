@@ -96,6 +96,15 @@ nav button:hover,nav button:focus-visible{background:rgba(21,115,71,.10);border-
 @media(max-width:420px){.brand{font-size:15px}.brand svg{width:27px;height:27px}#acct .small{display:none}#acct{max-width:58vw}.sf{grid-template-columns:1fr}.sf input:first-child,.sf .btn{grid-column:auto}.grid{grid-template-columns:1fr}.ph{aspect-ratio:16/10}.bar .sp{display:none}.bar{align-items:stretch}.bar select{margin-left:auto}}
 @media(min-width:821px){.top{flex-wrap:nowrap}.top nav{justify-content:center}.wrap{padding-top:28px}.hero{padding-top:54px;padding-bottom:62px}}
 @media(prefers-reduced-motion:reduce){.card,.btn,nav button,.chip{transition:none!important}}
+
+.site-footer{margin-top:40px;padding:20px 16px;border-top:1px solid var(--line);background:#fff;color:var(--mute);font-size:14px}
+.site-footer .in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.site-footer nav{display:flex;gap:16px;flex:none;flex-wrap:wrap}
+.site-footer a{color:var(--g2);font-weight:700;text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+.site-footer a:focus-visible{outline:3px solid var(--am);outline-offset:3px;border-radius:4px}
+@media(max-width:600px){.site-footer .in{align-items:flex-start;flex-direction:column}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://nyandwi-land.pages.dev/#website","url":"https://nyandwi-land.pages.dev/","name":"Nyandwi Land Marketplace","alternateName":["Nyandwi Land","Land Marketing Tanzania","Land Market Tanzania"],"description":"Find land, plots, farms and houses for sale in Tanzania."},{"@type":"Organization","@id":"https://nyandwi-land.pages.dev/#organization","name":"Nyandwi Land Marketplace","alternateName":["Nyandwi Land","Land Marketing Tanzania"],"url":"https://nyandwi-land.pages.dev/","description":"Online marketplace for discovering land, plots, farms and houses in Tanzania.","areaServed":{"@type":"Country","name":"Tanzania"}}]}</script>
 <link rel="stylesheet" href="./glass-polish.css?v=1">
@@ -299,4 +308,5 @@ else{sb=supabase.createClient(SB_URL,SB_KEY);const forcePublicEntry=new URLSearc
 </script>
 <script src="./password-quality.js?v=1" defer></script>
 <script src="./marketplace-fixes.js?v=1"></script>
+<footer class="site-footer"><div class="in"><span>© <span id="yr"></span> Nyandwi Land Marketplace · Find land in Tanzania</span><nav aria-label="Legal"><a href="/terms.html">Terms of Use</a><a href="/privacy.html">Privacy Policy</a></nav></div></footer>
 </body></html>
